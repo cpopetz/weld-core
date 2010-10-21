@@ -15,19 +15,26 @@
  * limitations under the License.
  */
 
-package org.jboss.weld.bean.interceptor;
+package org.jboss.weld.tests.interceptors.retry;
 
-import org.jboss.interceptor.model.InterceptorMetadata;
-import org.jboss.interceptor.model.metadata.ClassReference;
-import org.jboss.interceptor.registry.ClassMetadataReader;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import javax.interceptor.InterceptorBinding;
 
 /**
  * @author Marius Bogoevici
  */
-public class WeldMetadataReader implements ClassMetadataReader
+@InterceptorBinding
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface Transactional
 {
-   public InterceptorMetadata getInterceptorMetadata(ClassReference clazz, boolean isTargetClass)
-   {
-      return new WeldInterceptorMetadata(clazz, isTargetClass);
-   }
+
 }

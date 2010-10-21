@@ -15,30 +15,26 @@
  * limitations under the License.
  */
 
-package org.jboss.weld.bean.interceptor;
+package org.jboss.weld.tests.interceptors.retry;
 
-import org.jboss.interceptor.registry.InterceptorMetadataRegistry;
-import org.jboss.weld.bootstrap.api.Service;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+import javax.interceptor.InterceptorBinding;
 
 /**
  * @author Marius Bogoevici
  */
-public class InterceptionMetadataService implements Service
+@InterceptorBinding
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface Retriable
 {
-   private InterceptorMetadataRegistry interceptorMetadataRegistry;
 
-   public InterceptionMetadataService()
-   {
-       interceptorMetadataRegistry = new InterceptorMetadataRegistry(new WeldMetadataReader());
-   }
-
-   public InterceptorMetadataRegistry getInterceptorMetadataRegistry()
-   {
-      return interceptorMetadataRegistry;
-   }
-
-   public void cleanup()
-   {
-      interceptorMetadataRegistry.cleanup();
-   }
 }

@@ -22,8 +22,6 @@ import javax.enterprise.inject.spi.Decorator;
 import javax.inject.Inject;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.jboss.interceptor.util.proxy.TargetInstanceProxyMethodHandler;
 import org.jboss.weld.bean.WeldDecorator;
@@ -87,10 +85,9 @@ public class DecoratorProxyMethodHandler extends TargetInstanceProxyMethodHandle
       if (beanInstance.getContextual().get() instanceof WeldDecorator<?>)
       {
          WeldDecorator<?> decorator = (WeldDecorator<?>) beanInstance.getContextual().get();
-         if (decorator.getDecoratedMethodSignatures().contains(methodSignature)
-               && !method.isAnnotationPresent(Inject.class))
+         if (!method.isAnnotationPresent(Inject.class))
          {
-            WeldMethod<?, ?> decoratorMethod = decorator.getWeldAnnotated().getWeldMethod(methodSignature);
+            WeldMethod<?, ?> decoratorMethod = decorator.getDecoratorMethod(method);
             if (decoratorMethod != null)
             {
                return decoratorMethod.invokeOnInstance(beanInstance.getInstance(), args);
